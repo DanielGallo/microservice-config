@@ -1,4 +1,7 @@
+import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -24,5 +27,70 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 
 version = "2020.2"
 
+object MicroserviceRepo : GitVcsRoot({
+    name = DslContext.getParameter("vcsDisplayName")
+    url = DslContext.getParameter("vcsUrl")
+    branchSpec = "+:refs/heads/*"
+})
+
+object Build : BuildType({
+    name = "Build"
+
+    triggers {
+        vcs {
+        }
+    }
+
+    steps {
+        script {
+            name = "Run Build"
+            scriptContent = """
+                echo "Running Build!"
+            """.trimIndent()
+        }
+    }
+})
+
+object Test : BuildType({
+    name = "Test"
+
+    steps {
+        script {
+            name = "Run Tests"
+            scriptContent = """
+                echo "Running Tests!"
+            """.trimIndent()
+        }
+    }
+})
+
+object Deploy : BuildType({
+    name = "Deploy"
+    type = Type.DEPLOYMENT
+
+    steps {
+        script {
+            name = "Run Deployment"
+            scriptContent = """
+                echo "Deploying!"
+            """.trimIndent()
+        }
+    }
+})
+
 project {
+    vcsRoot(MicroserviceRepo)
+
+    if (DslContext.getParameter("deploy").equals("true")) {
+        sequential {
+            buildType(Build)
+            buildType(Test)
+            buildType(Deploy)
+        }
+    } else {
+        sequential {
+            buildType(Build)
+            buildType(Test)
+        }
+    }
 }
