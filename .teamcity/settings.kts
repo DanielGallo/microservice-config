@@ -81,9 +81,9 @@ object Deploy : BuildType({
 project {
     vcsRoot(MicroserviceRepo)
 
-
-    buildType(Build)
-    buildType(Test)
-    buildType(Deploy)
-
+    sequential {
+        buildType(Build)
+        buildType(Test)
+        buildType(Deploy)
+    }
 }
