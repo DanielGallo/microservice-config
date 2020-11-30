@@ -85,7 +85,11 @@ object Test : BuildType({
 
 object Deploy : BuildType({
     name = "Deploy"
-    //type = Type.DEPLOYMENT
+    type = Type.DEPLOYMENT
+
+    vcs {
+        root(MicroserviceRepo)
+    }
 
     if (DslContext.getParameter("deploy").equals("true")) {
         triggers {
