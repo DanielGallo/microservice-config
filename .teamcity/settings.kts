@@ -30,7 +30,7 @@ version = "2020.2"
 object MicroserviceRepo : GitVcsRoot({
     name = DslContext.getParameter("vcsDisplayName")
     url = DslContext.getParameter("vcsUrl")
-    branchSpec = "+:refs/heads/*"
+    branchSpec = "+:refs/heads/main"
 })
 
 object Build : BuildType({
