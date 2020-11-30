@@ -41,6 +41,10 @@ object Build : BuildType({
         }
     }
 
+    vcs {
+        root(MicroserviceRepo)
+    }
+
     steps {
         script {
             name = "Run Build"
