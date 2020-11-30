@@ -41,6 +41,8 @@ object Build : BuildType({
         root(MicroserviceRepo)
     }
 
+    artifactRules = ". => %teamcity.project.id%.zip"
+
     steps {
         script {
             name = "Run Build"
@@ -54,6 +56,10 @@ object Build : BuildType({
 object Test : BuildType({
     name = "Test"
 
+    vcs {
+        root(MicroserviceRepo)
+    }
+
     if (DslContext.getParameter("deploy").equals("false")) {
         triggers {
             vcs {
@@ -62,6 +68,12 @@ object Test : BuildType({
     }
 
     steps {
+        script {
+            name = "NPM Install"
+            scriptContent = """
+                npm install
+            """.trimIndent()
+        }
         script {
             name = "Run Tests"
             scriptContent = """
