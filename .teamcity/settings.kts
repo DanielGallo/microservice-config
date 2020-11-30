@@ -1,5 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.vcs.GitVcsRoot
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
+import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.finishBuildTrigger
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 
@@ -70,7 +71,7 @@ object Test : BuildType({
 
 object Deploy : BuildType({
     name = "Deploy"
-    //type = Type.DEPLOYMENT
+    type = Type.DEPLOYMENT
 
     steps {
         script {
@@ -85,9 +86,10 @@ object Deploy : BuildType({
 project {
     vcsRoot(MicroserviceRepo)
 
+    buildType(Build)
+    buildType(Test)
+
     if (DslContext.getParameter("deploy").equals("true")) {
-        buildType(Build)
-        buildType(Test)
         buildType(Deploy)
 
         sequential {
@@ -96,9 +98,6 @@ project {
             buildType(Deploy)
         }
     } else {
-        buildType(Build)
-        buildType(Test)
-
         sequential {
             buildType(Build)
             buildType(Test)
