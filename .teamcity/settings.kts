@@ -85,7 +85,7 @@ object Test : BuildType({
 
 object Deploy : BuildType({
     name = "Deploy"
-    type = Type.DEPLOYMENT
+    //type = Type.DEPLOYMENT
 
     if (DslContext.getParameter("deploy").equals("true")) {
         triggers {
