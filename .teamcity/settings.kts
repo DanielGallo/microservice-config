@@ -50,7 +50,7 @@ object Build : BuildType({
         script {
             name = "Run Build"
             scriptContent = """
-                echo "Running Build!"
+                npm install
             """.trimIndent()
         }
     }
@@ -63,7 +63,7 @@ object Test : BuildType({
         script {
             name = "Run Tests"
             scriptContent = """
-                echo "Running Tests!"
+                ./node_modules/mocha/bin/mocha test --reporter mocha-teamcity-reporter
             """.trimIndent()
         }
     }
