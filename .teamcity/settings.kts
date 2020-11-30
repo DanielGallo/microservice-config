@@ -81,9 +81,23 @@ object Deploy : BuildType({
 project {
     vcsRoot(MicroserviceRepo)
 
-    sequential {
+    if (DslContext.getParameter("deploy").equals("true")) {
         buildType(Build)
         buildType(Test)
         buildType(Deploy)
+
+        sequential {
+            buildType(Build)
+            buildType(Test)
+            buildType(Deploy)
+        }
+    } else {
+        buildType(Build)
+        buildType(Test)
+
+        sequential {
+            buildType(Build)
+            buildType(Test)
+        }
     }
 }
