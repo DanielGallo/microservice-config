@@ -66,7 +66,7 @@ object Test : BuildType({
 
 object Deploy : BuildType({
     name = "Deploy"
-    type = Type.DEPLOYMENT
+    //type = Type.DEPLOYMENT
 
     steps {
         script {
