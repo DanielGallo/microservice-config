@@ -37,11 +37,6 @@ object MicroserviceRepo : GitVcsRoot({
 object Build : BuildType({
     name = "Build"
 
-    triggers {
-        vcs {
-        }
-    }
-
     vcs {
         root(MicroserviceRepo)
     }
@@ -59,6 +54,13 @@ object Build : BuildType({
 object Test : BuildType({
     name = "Test"
 
+    if (DslContext.getParameter("deploy").equals("false")) {
+        triggers {
+            vcs {
+            }
+        }
+    }
+
     steps {
         script {
             name = "Run Tests"
@@ -72,6 +74,13 @@ object Test : BuildType({
 object Deploy : BuildType({
     name = "Deploy"
     type = Type.DEPLOYMENT
+
+    if (DslContext.getParameter("deploy").equals("true")) {
+        triggers {
+            vcs {
+            }
+        }
+    }
 
     steps {
         script {
