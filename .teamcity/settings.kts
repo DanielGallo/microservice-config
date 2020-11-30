@@ -67,10 +67,6 @@ object Test : BuildType({
         }
     }
 
-    if (DslContext.getParameter("test").equals("hello")) {
-        
-    }
-
     steps {
         script {
             name = "NPM Install"
