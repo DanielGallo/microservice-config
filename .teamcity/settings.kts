@@ -103,4 +103,6 @@ project {
             buildType(Test)
         }
     }
+
+    buildTypesOrder = arrayListOf(Build, Test, Deploy)
 }
