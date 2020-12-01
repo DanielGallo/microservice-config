@@ -122,12 +122,14 @@ project {
             buildType(Test)
             buildType(Deploy)
         }
+
+        buildTypesOrder = arrayListOf(Build, Test, Deploy)
     } else {
         sequential {
             buildType(Build)
             buildType(Test)
         }
-    }
 
-    buildTypesOrder = arrayListOf(Build, Test, Deploy)
+        buildTypesOrder = arrayListOf(Build, Test)
+    }
 }
