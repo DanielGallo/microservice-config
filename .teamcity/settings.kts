@@ -116,20 +116,16 @@ project {
 
     if (DslContext.getParameter("deploy").equals("true")) {
         buildType(Deploy)
+    }
 
-        sequential {
-            buildType(Build)
-            buildType(Test)
+    sequential {
+        buildType(Build)
+        buildType(Test)
+
+        if (DslContext.getParameter("deploy").equals("true")) {
             buildType(Deploy)
         }
-
-        buildTypesOrder = arrayListOf(Build, Test, Deploy)
-    } else {
-        sequential {
-            buildType(Build)
-            buildType(Test)
-        }
-
-        buildTypesOrder = arrayListOf(Build, Test)
     }
+
+    buildTypesOrder = arrayListOf(Build, Test, Deploy)
 }
